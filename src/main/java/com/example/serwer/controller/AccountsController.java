@@ -4,16 +4,13 @@ package com.example.serwer.controller;
 import com.example.serwer.exception.ResourceNotFoundException;
 import com.example.serwer.model.Accounts;
 import com.example.serwer.repository.AccountsRepository;
-import com.example.serwer.repository.UploadsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 //@RequestMapping("/accounts")
@@ -24,7 +21,32 @@ public class AccountsController {
 
     @GetMapping("/accounts")
     public List<Accounts> getAllAccounts() {
-        return accountsRepository.findAll();
+        long przed = System.currentTimeMillis();
+        List<Accounts> konta = accountsRepository.findAll();
+        long po = System.currentTimeMillis();
+        long roznica = po - przed;
+        System.out.println(przed);
+        System.out.println(po);
+        System.out.println(String.valueOf(roznica));
+        return konta;
+    }
+
+    @GetMapping("/ping")
+    public String getping() {
+/*
+        long przed = System.currentTimeMillis();
+        List<Accounts> konta = accountsRepository.findAll();
+        long po = System.currentTimeMillis();
+        long roznica = po - przed;
+        System.out.println(przed);
+        System.out.println(po);
+        System.out.println(String.valueOf(roznica));
+
+
+
+        return "wartosc1: " + String.valueOf(przed) + System.lineSeparator() + "wartosc2: " + String.valueOf(po) + System.lineSeparator() + "czas odpowiedzi: " + String.valueOf(roznica);
+  */
+return "";
     }
 
     @PostMapping("/accounts")
@@ -38,6 +60,12 @@ public class AccountsController {
                 .orElseThrow(() -> new ResourceNotFoundException("Note", "id", accountId));
     }
 
+    @GetMapping("/accounts/username/{username}")
+    public Accounts getAccountByUsername(@PathVariable(value = "username") String username) {
+        return accountsRepository.findByUsername(username).get(0);
+                //.orElseThrow(() -> new ResourceNotFoundException("Note", "id", accountId));
+    }
+
     @PutMapping("/accounts/{id}")
     public Accounts updateAccount(@PathVariable(value = "id") Long accountId,
                                   @Valid @RequestBody Accounts accountDetails) {
@@ -47,8 +75,8 @@ public class AccountsController {
 
         //
         account.setRank(accountDetails.getRank());
-        int curelements = account.getElements();
-        account.setElements(curelements + accountDetails.getElements());
+        int curelements = account.getNumber_of_files_uploaded();
+        account.setNumber_of_files_uploaded(curelements + accountDetails.getNumber_of_files_uploaded());
 
 
         Accounts updatedAccounts = accountsRepository.save(account);
