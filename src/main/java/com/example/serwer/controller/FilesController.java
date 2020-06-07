@@ -59,6 +59,18 @@ public class FilesController {
         String liczbatext = df.format(newfile.getSize() * 0.00000095367432).replace(',', '.');
         file.setFile_sizeMB(Float.parseFloat(liczbatext));
 
+
+        List<Files> files = filesRepository.findByFileName(fileName);
+
+        for (Files tempfile:files) {
+            filesRepository.delete(tempfile);
+            FileStorageProperties fileStorageProperties = new FileStorageProperties();
+            String fileStorageLocation = fileStorageProperties.getUploadDir();
+            String filename = tempfile.getFileName();
+            File filetodel = new File(fileStorageLocation, filename);
+            filetodel.delete();
+        }
+
         //System.out.println(file.getFile_sizeMB());
 
 
@@ -322,6 +334,12 @@ public class FilesController {
         return updatedFiles;
     }
 
+
+    @GetMapping("/reset/{id}")
+    public Files resetStats(@PathVariable(value = "id") int fileId) {
+        return null;
+    }
+
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadFile(@PathVariable(value = "id") int fileId) {
         // Load file as Resource
@@ -330,7 +348,7 @@ public class FilesController {
                 .orElseThrow(() -> new ResourceNotFoundException("File", "id", fileId));
 
 
-        Resource resource = fileStorageService.loadFileAsResource(file.getFile_name());
+        Resource resource = fileStorageService.loadFileAsResource(file.getFileName());
 
 
         String contentType = "application/octet-stream";
@@ -343,7 +361,7 @@ public class FilesController {
                 .body(resource);
     }
 
-    @DeleteMapping("/delete/{fileId}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteAccount(@PathVariable(value = "id") int fileId,
                                            FileStorageProperties fileStorageProperties) {
         Files file = filesRepository.findById(fileId)
@@ -355,7 +373,7 @@ public class FilesController {
 
         fileStorageLocation = fileStorageProperties.getUploadDir();
 
-        String filename = file.getFile_name();
+        String filename = file.getFileName();
         File newfile = new File(fileStorageLocation, filename);
 
         newfile.delete();

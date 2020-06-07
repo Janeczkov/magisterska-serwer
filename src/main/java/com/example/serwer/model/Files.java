@@ -10,7 +10,7 @@ public class Files {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String file_name;
+    private String fileName;
     private String author;
     private String file_type;
     private boolean accepted;
@@ -47,8 +47,8 @@ public class Files {
     public Files() {
 
     }
-    public Files(String file_name, String file_type, long file_sizeB, String author) {
-        this.file_name = file_name;
+    public Files(String fileName, String file_type, long file_sizeB, String author) {
+        this.fileName = fileName;
         this.file_type = file_type;
         this.file_sizeB = file_sizeB;
         this.author = author;
@@ -63,12 +63,12 @@ public class Files {
         this.id = id;
     }
 
-    public String getFile_name() {
-        return file_name;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFile_name(String file_name) {
-        this.file_name = file_name;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getAuthor() {
