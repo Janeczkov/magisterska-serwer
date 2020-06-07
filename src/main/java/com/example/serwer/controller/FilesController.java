@@ -182,8 +182,8 @@ public class FilesController {
     public Files updateStatsFile(@PathVariable(value = "id") int fileId,
                                  @Valid @RequestBody Files updateDetails) {
 
-        Files file = filesRepository.findById(fileId)
-                .orElseThrow(() -> new ResourceNotFoundException("File", "id", fileId));
+        Files file = filesRepository.findByFileName(updateDetails.getTemp_filename()).get(0);
+                //.orElseThrow(() -> new ResourceNotFoundException("File", "id", fileId));
         Accounts user = accountsRepository.findByUsername(file.getAuthor()).get(0);
         ServerStats javastat = serverStatsRepository.findByPlatform("java").get(0);
         ServerStats csharpstat = serverStatsRepository.findByPlatform("csharp").get(0);

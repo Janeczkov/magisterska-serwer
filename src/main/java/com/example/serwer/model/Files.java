@@ -42,6 +42,8 @@ public class Files {
     private double temp_upload_time;
     @Transient
     private double temp_avg_latency;
+    @Transient
+    private String temp_filename;
 
 
     public Files() {
@@ -269,5 +271,13 @@ public class Files {
 
     public void setRaw_time_per_megabyte_download_csharp(double raw_time_per_megabyte_download_csharp) {
         this.raw_time_per_megabyte_download_csharp = raw_time_per_megabyte_download_csharp;
+    }
+
+    public String getTemp_filename() {
+        return temp_filename;
+    }
+
+    public void setTemp_filename(String temp_filename) {
+        this.temp_filename = temp_filename;
     }
 }
