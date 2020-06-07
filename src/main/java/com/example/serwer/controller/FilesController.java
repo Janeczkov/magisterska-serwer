@@ -53,7 +53,7 @@ public class FilesController {
         Files file = new Files(fileName,
                 newfile.getContentType(), newfile.getSize(), author);
         //NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMAN);
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("#.#####");
         df.setRoundingMode(RoundingMode.CEILING);
 
         String liczbatext = df.format(newfile.getSize() * 0.00000095367432).replace(',', '.');
@@ -176,6 +176,8 @@ public class FilesController {
         ServerStats javastat = serverStatsRepository.findByPlatform("java").get(0);
         ServerStats csharpstat = serverStatsRepository.findByPlatform("csharp").get(0);
 
+        System.out.println("pobrane: " + updateDetails.getTemp_upload_time() + updateDetails.getTemp_download_time() + updateDetails.getTemp_avg_latency() + updateDetails.getTemp_platform());
+        System.out.println(user.getUsername());
         user.setApp_language(updateDetails.getTemp_platform());
         double total = 0;
 
@@ -192,6 +194,7 @@ public class FilesController {
             user.setRaw_average_time_of_downloading(user.getAverage_time_of_downloading() - user.getAverage_latency());
 
             if (updateDetails.getTemp_platform().equals("java")) {
+                System.out.println("tu1");
                 total = file.getTotal_time_downloaded_java() + updateDetails.getTemp_download_time();
                 file.setTotal_time_downloaded_java(total);
                 file.setNumber_of_downloads_java(file.getNumber_of_downloads_java() + 1);
@@ -224,6 +227,17 @@ public class FilesController {
                 file.setAverage_latency_csharp(file.getTotal_latency_csharp() / file.getNumber_of_downloads_csharp());*/
                 //1MB = 1048576B
 
+                System.out.println("tu2");
+                total = file.getTotal_time_downloaded_csharp() + updateDetails.getTemp_download_time();
+                file.setTotal_time_downloaded_csharp(total);
+                file.setNumber_of_downloads_csharp(file.getNumber_of_downloads_csharp() + 1);
+                file.setAverage_time_downloaded_csharp(file.getTotal_time_downloaded_csharp() / file.getNumber_of_downloads_csharp());
+                file.setTotal_latency_csharp(file.getTotal_latency_csharp() + updateDetails.getTemp_avg_latency());
+                file.setAverage_latency_csharp(file.getTotal_latency_csharp() / file.getNumber_of_downloads_csharp());
+                file.setTime_per_megabyte_download_csharp(file.getTotal_time_downloaded_csharp() / file.getFile_sizeMB());
+                file.setRaw_average_time_downloaded_csharp(file.getAverage_time_downloaded_csharp() - file.getAverage_latency_csharp());
+                file.setRaw_time_per_megabyte_download_csharp(file.getTime_per_megabyte_download_csharp() - file.getAverage_latency_csharp());
+
                 csharpstat.setTotal_files_downloaded( csharpstat.getTotal_files_downloaded() + 1);
                 csharpstat.setTotal_latency_download( csharpstat.getTotal_latency_download() + updateDetails.getTemp_avg_latency());
                 csharpstat.setAverage_latency_download( csharpstat.getTotal_latency_download() /  csharpstat.getTotal_files_downloaded());
@@ -241,6 +255,7 @@ public class FilesController {
 
         else if (updateDetails.getTemp_download_time() < updateDetails.getTemp_upload_time()) { //kiedy upload
 
+            System.out.println("tu3");
             total = user.getTotal_time_of_uploading() + updateDetails.getTemp_upload_time();
             user.setTotal_time_of_uploading(total);
             user.setNumber_of_files_uploaded(user.getNumber_of_files_uploaded() + 1);
@@ -259,6 +274,7 @@ public class FilesController {
 
             if (updateDetails.getTemp_platform().equals("java")) {
 //                user.setApp_language("java");
+                System.out.println("tu4");
                 javastat.setTotal_files_uploaded( javastat.getTotal_files_uploaded() + 1);
                 javastat.setTotal_latency_upload( javastat.getTotal_latency_upload() + updateDetails.getTemp_avg_latency());
                 javastat.setAverage_latency_upload( javastat.getTotal_latency_upload() /  javastat.getTotal_files_uploaded());
@@ -273,13 +289,9 @@ public class FilesController {
 
             }
             else if (updateDetails.getTemp_platform().equals("csharp")) {
-               // user.setApp_language("csharp");
-                total = user.getTotal_time_of_uploading() + updateDetails.getTemp_upload_time();
-                user.setTotal_time_of_uploading(total);
-                user.setNumber_of_files_uploaded(user.getNumber_of_files_uploaded() + 1);
-                user.setAverage_time_of_uploading(user.getTotal_time_of_uploading() / user.getNumber_of_files_uploaded());
 
 
+                System.out.println("tu5");
                 csharpstat.setTotal_files_uploaded( csharpstat.getTotal_files_uploaded() + 1);
                 csharpstat.setTotal_latency_upload( csharpstat.getTotal_latency_upload() + updateDetails.getTemp_avg_latency());
                 csharpstat.setAverage_latency_upload( csharpstat.getTotal_latency_upload() /  csharpstat.getTotal_files_uploaded());
@@ -305,7 +317,6 @@ public class FilesController {
         //System.out.println(updateDetails.getTemp_upload_time());
 
 
-        System.out.println(file.getAverage_latency_csharp() + file.getAverage_latency_java() + file.getAverage_time_downloaded_java());
         Files updatedFiles = filesRepository.save(file);
         accountsRepository.save(user);
         return updatedFiles;
