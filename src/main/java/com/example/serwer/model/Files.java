@@ -10,6 +10,7 @@ public class Files {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name="filename")
     private String fileName;
     private String author;
     private String file_type;
