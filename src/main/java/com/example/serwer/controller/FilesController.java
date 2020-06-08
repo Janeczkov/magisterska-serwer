@@ -214,7 +214,7 @@ public class FilesController {
                 file.setAverage_time_downloaded_java(file.getTotal_time_downloaded_java() / file.getNumber_of_downloads_java());
                 file.setTotal_latency_java(file.getTotal_latency_java() + updateDetails.getTemp_avg_latency());
                 file.setAverage_latency_java(file.getTotal_latency_java() / file.getNumber_of_downloads_java());
-                file.setTime_per_megabyte_download_java(file.getTotal_time_downloaded_java() / file.getFile_sizeMB());
+                file.setTime_per_megabyte_download_java(file.getTotal_time_downloaded_java() / (file.getFile_sizeMB() * file.getNumber_of_downloads_java()));
                 file.setRaw_average_time_downloaded_java(file.getAverage_time_downloaded_java() - file.getAverage_latency_java());
                 file.setRaw_time_per_megabyte_download_java(file.getTime_per_megabyte_download_java() - file.getAverage_latency_java());
 
@@ -247,7 +247,7 @@ public class FilesController {
                 file.setAverage_time_downloaded_csharp(file.getTotal_time_downloaded_csharp() / file.getNumber_of_downloads_csharp());
                 file.setTotal_latency_csharp(file.getTotal_latency_csharp() + updateDetails.getTemp_avg_latency());
                 file.setAverage_latency_csharp(file.getTotal_latency_csharp() / file.getNumber_of_downloads_csharp());
-                file.setTime_per_megabyte_download_csharp(file.getTotal_time_downloaded_csharp() / file.getFile_sizeMB());
+                file.setTime_per_megabyte_download_csharp(file.getTotal_time_downloaded_csharp() / (file.getFile_sizeMB() * file.getNumber_of_downloads_csharp()));
                 file.setRaw_average_time_downloaded_csharp(file.getAverage_time_downloaded_csharp() - file.getAverage_latency_csharp());
                 file.setRaw_time_per_megabyte_download_csharp(file.getTime_per_megabyte_download_csharp() - file.getAverage_latency_csharp());
 
