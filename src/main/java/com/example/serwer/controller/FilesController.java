@@ -153,7 +153,7 @@ public class FilesController {
                 .orElseThrow(() -> new ResourceNotFoundException("File", "id", fileId));
 
         //
-        if (fileDetails.isAccepted()) {
+        /*if (fileDetails.isAccepted()) {
             try {
                 file.setAccepted(true);
                 String author = file.getAuthor();
@@ -164,7 +164,7 @@ public class FilesController {
             catch (NullPointerException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
 
         /*System.out.println(fileId);
@@ -184,7 +184,6 @@ public class FilesController {
 
         Files file = filesRepository.findByFileName(updateDetails.getTemp_filename()).get(0);
 
-                //.orElseThrow(() -> new ResourceNotFoundException("File", "id", fileId));
         Accounts user = accountsRepository.findByUsername(updateDetails.getTemp_username()).get(0);
         ServerStats javastat = serverStatsRepository.findByPlatform("java").get(0);
         ServerStats csharpstat = serverStatsRepository.findByPlatform("csharp").get(0);

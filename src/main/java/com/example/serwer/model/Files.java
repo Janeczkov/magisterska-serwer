@@ -14,7 +14,6 @@ public class Files {
     private String fileName;
     private String author;
     private String file_type;
-    private boolean accepted;
     private long file_sizeB;
     private float file_sizeMB;
     private int number_of_downloads_java;
@@ -90,14 +89,6 @@ public class Files {
 
     public void setFile_type(String file_type) {
         this.file_type = file_type;
-    }
-
-    public boolean isAccepted() {
-        return accepted;
-    }
-
-    public void setAccepted(boolean accepted) {
-        this.accepted = accepted;
     }
 
     public long getFile_sizeB() {
