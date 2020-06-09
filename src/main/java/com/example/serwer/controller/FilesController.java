@@ -185,7 +185,7 @@ public class FilesController {
         Files file = filesRepository.findByFileName(updateDetails.getTemp_filename()).get(0);
 
                 //.orElseThrow(() -> new ResourceNotFoundException("File", "id", fileId));
-        Accounts user = accountsRepository.findByUsername(file.getAuthor()).get(0);
+        Accounts user = accountsRepository.findByUsername(updateDetails.getTemp_username()).get(0);
         ServerStats javastat = serverStatsRepository.findByPlatform("java").get(0);
         ServerStats csharpstat = serverStatsRepository.findByPlatform("csharp").get(0);
 

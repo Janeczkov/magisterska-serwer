@@ -45,6 +45,8 @@ public class Files {
     private double temp_avg_latency;
     @Transient
     private String temp_filename;
+    @Transient
+    private String temp_username;
 
 
     public Files() {
@@ -280,5 +282,13 @@ public class Files {
 
     public void setTemp_filename(String temp_filename) {
         this.temp_filename = temp_filename;
+    }
+
+    public String getTemp_username() {
+        return temp_username;
+    }
+
+    public void setTemp_username(String temp_username) {
+        this.temp_username = temp_username;
     }
 }
