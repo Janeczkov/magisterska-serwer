@@ -51,6 +51,7 @@ return "";
 
     @PostMapping("/accounts")
     public Accounts createAccount(@Valid @RequestBody Accounts account) {
+        account.setRank("3");
         return accountsRepository.save(account);
     }
 
