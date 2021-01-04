@@ -95,7 +95,4 @@ return "";
     }
 
 
-    /*public List<Accounts> findByName(Accounts account) {
-        return accountsRepository.findAll(Example.of(account));
-    }*/
 }
